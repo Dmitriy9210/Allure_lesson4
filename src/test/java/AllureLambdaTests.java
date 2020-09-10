@@ -1,10 +1,13 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -34,6 +37,13 @@ public class AllureLambdaTests {
     private static final String BUG_LABEL = "bug";
     private static final String TITLE = config().getTitle();
     private int issue;
+
+    @BeforeEach
+    public void initListener() {
+        SelenideLogger.addListener("allure", new AllureSelenide()
+                .savePageSource(true)
+                .screenshots(true));
+    }
 
     @Test
     void createNewIssue() {
@@ -108,5 +118,10 @@ public class AllureLambdaTests {
                     .body("title", is(config().getTitle()));
             // @formatter:on
         });
+    }
+
+    @AfterEach
+    public void closeDriver() {
+        closeWebDriver();
     }
 }

@@ -1,10 +1,15 @@
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import steps.ApiSteps;
 import steps.WebSteps;
 
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static config.Config.config;
 
 
@@ -28,6 +33,13 @@ public class AllureStepsTests {
     private WebSteps webSteps = new WebSteps();
     private ApiSteps apiSteps = new ApiSteps();
 
+    @BeforeEach
+    public void initListener() {
+        SelenideLogger.addListener("allure", new AllureSelenide()
+                .savePageSource(true)
+                .screenshots(true));
+    }
+
     @Test
     public void createNewIssue() {
         webSteps.openLoginForm();
@@ -39,6 +51,11 @@ public class AllureStepsTests {
         webSteps.createNewIssue(TITLE, BUG_LABEL);
         int number = webSteps.getIssueNumber();
         apiSteps.checkByNumber(number, TOKEN);
+    }
+
+    @AfterEach
+    public void closeDriver() {
+        closeWebDriver();
     }
 
 }
