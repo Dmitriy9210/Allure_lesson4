@@ -28,7 +28,6 @@ public class AllureStepsTests {
     private static final String PASSWORD = config().getPassword();
     private static final String BUG_LABEL = "bug";
     private static final String TITLE = config().getTitle();
-    private int issue;
 
     private WebSteps webSteps = new WebSteps();
     private ApiSteps apiSteps = new ApiSteps();
