@@ -11,7 +11,7 @@ repositories {
 }
 
 allure {
-    autoconfigure = true
+    autoconfigure = true // плагин все автоматически сконфигурирует
     version = '2.13.5'
 
     useJUnit5(){

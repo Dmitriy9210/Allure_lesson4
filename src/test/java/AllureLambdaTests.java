@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 @Story("Использование Lambda steps")
 @Owner("Dmitriy")
 
-public class AllureTests {
+public class AllureLambdaTests {
 
 
     private static final String REPOSITORY = config().getRepository();
@@ -93,7 +93,7 @@ public class AllureTests {
             // @formatter:off
             given()
                     .baseUri("https://api.github.com")
-                    .header("Authorization", "token " + config().getToken())
+                    .header("Authorization", "token " + TOKEN)
                     .filter(new AllureRestAssured())
                     .log().uri()
 
